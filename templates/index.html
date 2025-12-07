@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Головна сторінка | TechShop</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <script src="https://unpkg.com/typeit/dist/index.umd.js"></script>
+  </head>
+  <body class="bg-primary-blue text-text-dark min-h-screen pt-4 pb-12">
+    
+    <header class="flex items-center justify-between w-full max-w-7xl mx-auto px-4 lg:px-0 mb-8">
+      <div class="flex items-center gap-4">
+        <img class="animate__animated animate__heartBeat" src="{{ url_for('static', filename='images/laptop.png') }}" alt="Логотип сайту" width="64" height="64" />
+        <h2 class="text-2xl font-bold text-white hidden sm:block">TechShop</h2>
+      </div>
+
+      <nav class="flex items-center gap-2 sm:gap-4">
+        <a class="nav-btn" href="{{ url_for('index') }}">Головна</a>
+        <a class="nav-btn" href="{{ url_for('catalog') }}">Каталог</a>
+        <a class="nav-btn" href="{{ url_for('index') }}">Контакти</a>
+      </nav>
+    </header>
+    
+    <main class="max-w-7xl mx-auto px-4 lg:px-0">
+      <div class="narrow">
+        <h1 class="main-title">TechShop</h1>
+        <p class="main-subtitle">Онлайн магазин техніки</p>
+      </div>
+      
+      <section class="hero-block">
+        
+        <div class="card hero-text-card animate__animated animate__fadeInLeft">
+          <p id="text" class="hero-text text-lg sm:text-xl">
+            </p>
+        </div>
+        
+        <img
+          class="hero-image animate__animated animate__bounceInRight bg-white p-4 rounded-lg shadow-xl"
+          src="https://plus.unsplash.com/premium_photo-1681487782381-5dd92bb94f74?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=cover&q=80&w=2340"
+          alt="Картинка з технікою"
+          width="400"
+          height="300"
+        />
+      </section>
+    </main>
+
+    <footer class="mt-12 pt-8 border-t border-white/30 text-white/90">
+      <div class="max-w-7xl mx-auto px-4 lg:px-0 flex flex-col md:flex-row justify-between items-start gap-8">
+        
+        <div class="md:w-1/4">
+          <p class="mb-2 font-bold text-lg">TechShop</p>
+          <p class="text-sm">© 2025 TechShop. Всі права захищені.</p>
+        </div>
+
+        <div class="md:w-1/4">
+          <p class="font-bold mb-3 text-lg">Навігація</p>
+          <ul class="space-y-1">
+            <li><a class="footer-link" href="{{ url_for('index') }}">Головна</a></li>
+            <li><a class="footer-link" href="{{ url_for('catalog') }}">Каталог</a></li>
+            <li><a class="footer-link" href="{{ url_for('index') }}">Третя сторінка</a></li>
+          </ul>
+        </div>
+        
+        <div class="md:w-1/4">
+          <p class="font-bold mb-3 text-lg">Контакти</p>
+          <ul class="space-y-1">
+            <li>Телефон: <span class="font-mono">+380 123 456 789</span></li>
+            <li>Email: <span class="font-mono">techshop@gmail.com</span></li>
+          </ul>
+        </div>
+        
+        <div class="md:w-1/4 w-full">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d169317.4897606574!2d34.767292632812506!3d48.46447670000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40dbe2dd62b41ded%3A0xff6c759b635212bd!2z0JHRgNC10L3QtNC-0LLQuNC5INC80LDQs9Cw0LfQuNC9IFNhbXN1bmc!5e0!3m2!1sru!2sua!4v1762703198434!5m2!1sru!2sua" 
+            width="100%" 
+            height="200" 
+            class="footer-map"
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy" 
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </footer>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        new TypeIt("#text", {
+          strings: [
+            "Ласкаво просимо до TechShop - вашого надійного онлайн магазину техніки! Ми пропонуємо широкий вибір сучасних гаджетів та аксесуарів за конкурентними цінами.",
+          ],
+          speed: 40,
+          cursor: false
+        }).go();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <title>Каталог товарів | TechShop</title>
+  </head>
+
+  <body class="bg-primary-blue text-text-dark min-h-screen flex flex-col p-4 sm:p-8">
+    
+    <header class="flex items-center justify-between w-full max-w-7xl mx-auto px-4 lg:px-0 mb-8">
+      <div class="flex items-center gap-4">
+        <img class="animate__animated animate__heartBeat" src="{{ url_for('static', filename='images/laptop.png') }}" alt="Логотип сайту" width="64" height="64" />
+        <h2 class="text-2xl font-bold text-white hidden sm:block">TechShop</h2>
+      </div>
+
+      <nav class="flex items-center gap-2 sm:gap-4">
+        <a class="nav-btn" href="{{ url_for('index') }}">Головна</a>
+        <a class="nav-btn" href="{{ url_for('catalog') }}">Каталог</a>
+        <a class="nav-btn" href="{{ url_for('index') }}">Контакти</a>
+      </nav>
+    </header>
+
+    <hr class="border-t border-white/30 mb-8 max-w-7xl mx-auto w-full" />
+
+    <main class="grid grid-cols-1 lg:grid-cols-4 gap-8 flex-grow max-w-7xl mx-auto w-full px-4 lg:px-0">
+      
+      <div class="lg:col-span-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">
+        
+        <div class="p-6 bg-white rounded-xl shadow-2xl space-y-5 text-gray-800 border-t-4 border-indigo-600">
+          <h1 class="text-2xl font-extrabold text-gray-900 border-b pb-2">⚙️ Фільтри та Сортування</h1>
+          
+          <form action="/filter_catalog" method="GET" class="space-y-4">
+            <div>
+              <label for="category-select" class="block text-md font-bold text-gray-700 mb-2">Категорія:</label>
+              <select 
+                id="category-select"
+                name="category" 
+                class="block w-full p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-inner focus:ring-indigo-500 focus:border-indigo-500 text-gray-800"
+              >
+                <option value="">— Всі товари —</option>
+                <option value="Смартфон">Смартфон</option>
+                <option value="Ноутбук" selected>Ноутбук</option>
+                <option value="Холодильник">Холодильник</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-md font-bold text-gray-700 mb-2">Ціна (грн):</label>
+              <div class="flex space-x-2">
+                <input 
+                  type="number" 
+                  name="min_price" 
+                  placeholder="Мінімум"
+                  class="filter-input"
+                  min="0"
+                >
+                <input 
+                  type="number" 
+                  name="max_price" 
+                  placeholder="Максимум"
+                  class="filter-input"
+                  min="0"
+                >
+              </div>
+            </div>
+            
+            <button type="submit" class="p-3 bg-indigo-600 text-white rounded-lg w-full font-extrabold text-lg tracking-wide shadow-md hover:bg-indigo-700 transition duration-200 transform hover:scale-[1.01]">
+              <span class="mr-2">✨</span> Застосувати фільтри
+            </button>
+          </form>
+        </div>
+        
+        <section class="card w-full p-6 bg-white rounded-xl shadow-2xl space-y-4 border-t-4 border-green-500">
+          <h2 class="text-2xl font-extrabold text-gray-900 border-b pb-2">➕ Додати новий товар</h2>
+          <form method="POST" action="{{ url_for('add_item') }}" class="space-y-3">
+            <input name="title" type="text" placeholder="Назва товару (напр., iPhone 15)" required class="form-input" />
+            <textarea name="description" placeholder="Короткий опис товару" rows="2" class="form-input"></textarea>
+            <input name="price" type="number" step="0.01" placeholder="Ціна товару (грн)" required class="form-input" />
+            <input name="image_url" type="text" placeholder="Посилання на зображення (URL)" class="form-input" />
+            <input name="category" type="text" placeholder="Категорія (напр., Смартфон)" class="form-input" />
+            <button type="submit" class="btn bg-green-600 hover:bg-green-700 w-full font-extrabold text-lg">Додати товар</button>
+          </form>
+        </section>
+      </div>
+      
+      <section class="lg:col-span-3">
+        <div class="bg-white p-4 rounded-xl shadow-2xl mb-6">
+            <h1 class="text-3xl font-extrabold text-gray-900">⚡ Наші найкращі пропозиції</h1>
+        </div>
+        
+        <div class="catalog-grid grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+          {% for item in catalog %}
+          <div class="product-card">
+            <h1 class="text-xl font-bold mb-3 text-gray-900">{{ item.title }}</h1>
+            
+            {% if item.image_url %}
+            <img src="{{ item.image_url }}" alt="{{ item.title }}" class="product-image object-contain mb-3" />
+            {% else %}
+            <div class="product-image bg-gray-200 flex items-center justify-center mb-3">
+                <span class="text-gray-500 text-sm">Немає зображення</span>
+            </div>
+            {% endif %}
+            
+            <p class="text-sm text-gray-600 mb-3">{{ item.description }}</p>
+            <p class="text-2xl font-extrabold text-indigo-600 mb-1">
+                {{ item.price }} <span class="text-lg">грн</span>
+            </p>
+            <p class="text-sm font-medium text-gray-700 mb-4">Категорія: <span class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">{{ item.category }}</span></p>
+
+            <button class="buy-btn">🛒 Купити</button>
+
+            <form method="POST" action="{{ url_for('remove_item') }}" onsubmit="return confirm('Видалити {{ item.title }} зі списку?');">
+              <input type="hidden" name="id" value="{{ item.id }}" />
+              <button type="submit" class="delete-btn mt-2 w-full">🗑️ Видалити</button>
+            </form>
+          </div>
+          {% else %}
+          <p class="text-xl text-white lg:col-span-3">Товари відсутні. Спробуйте змінити критерії фільтрації.</p>
+          {% endfor %}
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer mt-12 pt-6 max-w-7xl mx-auto w-full text-center text-white/70 border-t border-white/30">
+      <p>&copy; 2025 TechShop</p>
+    </footer>
+  </body>
+</html>
